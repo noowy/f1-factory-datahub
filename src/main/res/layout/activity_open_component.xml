@@ -21,10 +21,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/component_id_textview"
         android:ems="10"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
+        style="@style/NotEditable"
         />
 
     <TextView
@@ -42,10 +39,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/component_name_textview"
         android:ems="10"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
+        style="@style/NotEditable"
         />
 
     <TextView
@@ -63,10 +57,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/description_textview"
         android:ems="10"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
+        style="@style/NotEditable"
         />
 
     <TextView
@@ -84,11 +75,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/lifespan_textview"
         android:ems="10"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        />
+        style="@style/NotEditable" />
 
     <TextView
         android:id="@+id/quantity_textview"
@@ -104,11 +91,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/quantity_textview"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        style="@style/NotEditable"
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/manufacture_date_textview"
@@ -125,11 +109,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/manufacture_date_textview"
-        android:clickable="false"
-        android:cursorVisible="false"
+        style="@style/NotEditable"
         android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
         android:visibility="gone" />
 
     <TextView
@@ -147,11 +128,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/expiration_date_textview"
-        android:clickable="false"
-        android:cursorVisible="false"
+        style="@style/NotEditable"
         android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
         android:visibility="gone" />
 
     <ProgressBar

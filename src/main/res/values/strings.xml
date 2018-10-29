@@ -36,4 +36,6 @@
     <string name="route_id">Route ID</string>
     <string name="completion_time">Time to complete</string>
     <string name="processes_list">List of Processes</string>
+    <string name="component_name_quantity">Component Name(s) and Quantity</string>
+    <string name="false_string">false</string>
 </resources>

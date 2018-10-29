@@ -16,6 +16,10 @@ import java.util.HashMap;
 
 import org.json.*;
 
+//  DataManager class is responsible for obtaining and changing data in
+//  in the remote DB through the http connection. Returns data in JSONs
+
+
 public class DataManager
 {
 	private String dbAddress;

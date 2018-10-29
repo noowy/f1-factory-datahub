@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NotEditable">
+        <!--        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false" -->
+        <item name="android:clickable">@string/false_string</item>
+        <item name="android:cursorVisible">@string/false_string</item>
+        <item name="android:focusable">@string/false_string</item>
+        <item name="android:focusableInTouchMode">@string/false_string</item>
+    </style>
+
 </resources>

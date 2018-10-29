@@ -13,10 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/component_id_textview"
         android:ems="10"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        style="@style/NotEditable" />
 
     <EditText
         android:id="@+id/product_name_field"
@@ -24,11 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/product_name_textview"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        style="@style/NotEditable"
+        android:ems="10"/>
 
     <EditText
         android:id="@+id/order_date_field"
@@ -37,11 +31,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="210dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        style="@style/NotEditable"
+        android:ems="10"/>
 
     <EditText
         android:id="@+id/due_date_field"
@@ -50,11 +41,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="115dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        style="@style/NotEditable"
+        android:ems="10"/>
 
     <EditText
         android:id="@+id/quantity_field"
@@ -62,11 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/quantity_textview"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        style="@style/NotEditable"
+        android:ems="10"/>
 
     <EditText
         android:id="@+id/route_field"
@@ -75,11 +60,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="19dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        style="@style/NotEditable"
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/component_id_textview"

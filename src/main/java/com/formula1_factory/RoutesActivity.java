@@ -1,5 +1,6 @@
 package com.formula1_factory;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +23,6 @@ import java.util.List;
 
 public class RoutesActivity extends AppCompatActivity
 {
-	private Button addRouteButton;
 	private ListView routesListView;
 	private ProgressBar loadingCircle;
 
@@ -34,7 +36,6 @@ public class RoutesActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_routes);
 
-		addRouteButton = (Button) findViewById(R.id.add_route_button);
 		routesListView = (ListView) findViewById(R.id.routes_list);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
 
@@ -42,21 +43,22 @@ public class RoutesActivity extends AppCompatActivity
 		routesList = new ArrayList<>();
 		new LoadAllRoutes().execute();
 
-		addRouteButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-
-			}
-		});
-
 		routesListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
+				String name = ((TextView) view.findViewById(android.R.id.text1)).
+						getText().toString();
+				String ID = ((TextView) view.findViewById(android.R.id.text2)).
+						getText().toString();
 
+				Intent intent = new Intent(getApplicationContext(), OpenRouteActivity.class);
+
+				intent.putExtra("name", name);
+				intent.putExtra("ID", ID);
+
+				startActivity(intent);
 			}
 		});
 	}
