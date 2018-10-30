@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OpenFactoryOrderActivity">
+
+    <EditText
+        android:id="@+id/component_id_field"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/component_id_textview"
+        android:ems="10"
+        style="@style/NotEditable" />
+
+    <EditText
+        android:id="@+id/product_name_field"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/product_name_textview"
+        style="@style/NotEditable"
+        android:ems="10"/>
+
+    <EditText
+        android:id="@+id/order_date_field"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="210dp"
+        style="@style/NotEditable"
+        android:ems="10"/>
+
+    <EditText
+        android:id="@+id/due_date_field"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="115dp"
+        style="@style/NotEditable"
+        android:ems="10"/>
+
+    <EditText
+        android:id="@+id/quantity_field"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/quantity_textview"
+        style="@style/NotEditable"
+        android:ems="10"/>
+
+    <EditText
+        android:id="@+id/route_field"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="19dp"
+        style="@style/NotEditable"
+        android:ems="10"/>
+
+    <TextView
+        android:id="@+id/component_id_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/order_id_textview" />
+
+    <TextView
+        android:id="@+id/product_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="123dp"
+        android:text="@string/product_name_textview" />
+
+    <TextView
+        android:id="@+id/order_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/order_date_field"
+        android:layout_alignParentStart="true"
+        android:text="@string/order_date_textview" />
+
+    <TextView
+        android:id="@+id/due_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/due_date_field"
+        android:layout_alignParentStart="true"
+        android:text="@string/due_date_textview" />
+
+    <TextView
+        android:id="@+id/quantity_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="227dp"
+        android:text="@string/quantity_textview" />
+
+    <TextView
+        android:id="@+id/route_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/route_field"
+        android:layout_alignParentStart="true"
+        android:text="@string/route_name" />
+
+    <Button
+        android:id="@+id/delete_factory_order_button"
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/delete_order"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/loadingCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+</RelativeLayout>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OpenRouteActivity">
+
+    <TextView
+        android:id="@+id/route_id_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/route_id" />
+
+    <EditText
+        android:id="@+id/route_id_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/route_id_textview"
+        android:ems="10"
+        style="@style/NotEditable" />
+
+    <TextView
+        android:id="@+id/route_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/route_id_field"
+        android:text="@string/route_name" />
+
+    <EditText
+        android:id="@+id/route_name_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/route_name_textview"
+        android:ems="10"
+        style="@style/NotEditable" />
+
+    <TextView
+        android:id="@+id/description_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/route_name_field"
+        android:text="@string/description" />
+
+    <EditText
+        android:id="@+id/description_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/description_textview"
+        android:ems="10"
+        style="@style/NotEditable" />
+
+    <TextView
+        android:id="@+id/completion_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/description_field"
+        android:text="@string/completion_time" />
+
+    <EditText
+        android:id="@+id/completion_time_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/completion_time_textview"
+        android:ems="10"
+        style="@style/NotEditable" />
+
+    <TextView
+        android:id="@+id/processes_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/completion_time_field"
+        android:text="@string/processes_list" />
+
+    <ListView
+        android:id="@+id/processes_listview"
+        android:layout_width="match_parent"
+        android:layout_height="159dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/processes_textview" />
+
+    <TextView
+        android:id="@+id/product_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/processes_listview"
+        android:text="@string/product_name_textview" />
+
+    <EditText
+        android:id="@+id/product_name_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/product_name_textview"
+        android:ems="10"
+        style="@style/NotEditable" />
+
+    <TextView
+        android:id="@+id/component_names_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/product_name_field"
+        android:text="@string/component_name_quantity" />
+
+    <ListView
+        android:id="@+id/components_listview"
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/component_names_textview" />
+
+    <ProgressBar
+        android:id="@+id/loadingCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

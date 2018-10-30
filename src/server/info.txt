@@ -1,0 +1,3 @@
+formula_factory.sql is the ddl file for the database  
+db_conf.php keeps database connection related data
+index.php is the main page for the http server which fetches data for the android app
