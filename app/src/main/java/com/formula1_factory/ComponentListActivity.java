@@ -98,7 +98,8 @@ public class ComponentListActivity extends AppCompatActivity
 						"SELECT Detail.ID, name, quantity, units " +
 								"FROM Detail LEFT OUTER JOIN Stock " +
 								"ON Detail.ID=Stock.component_id " +
-								"WHERE for_sale=false;");
+								"WHERE for_sale=false " +
+								"ORDER BY name;");
 				for (int i = 0; i < jsonComponents.length(); i++)
 					componentList.add(dataManager.jsonToHashMap(
 							jsonComponents.getJSONObject(i)));

@@ -109,7 +109,8 @@ public class FactoryOrdersActivity extends AppCompatActivity
 				jsonFactoryOrders = dataManager.getDataFromDB(
 						"SELECT Factory_Orders.ID, name, quantity " +
 								"FROM Detail JOIN Factory_Orders " +
-								"ON Factory_Orders.component_id=Detail.ID;");
+								"ON Factory_Orders.component_id=Detail.ID " +
+								"ORDER BY name;");
 
 				for (int i = 0; i < jsonFactoryOrders.length(); i++)
 					factoryOrdersList.add(dataManager.jsonToHashMap(

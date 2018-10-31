@@ -8,23 +8,21 @@
 
     <EditText
         android:id="@+id/component_id_field"
+        style="@style/NotEditable"
         android:layout_width="317dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="43dp"
-        android:ems="10"
-        style="@style/NotEditable"/>
+        android:layout_below="@+id/component_id_textview"
+        android:ems="10" />
 
     <EditText
         android:id="@+id/client_name_field"
+        style="@style/NotEditable"
         android:layout_width="317dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="128dp"
-        android:ems="10"
-        style="@style/NotEditable" />
+        android:layout_below="@+id/product_name_field"
+        android:ems="10" />
 
     <EditText
         android:id="@+id/order_date_field"
@@ -39,18 +37,16 @@
         android:id="@+id/component_id_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/component_id_field"
-        android:layout_alignStart="@+id/component_id_field"
-        android:layout_marginBottom="-43dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:text="@string/order_id_textview" />
 
     <TextView
         android:id="@+id/product_name_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/client_name_field"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="-128dp"
+        android:layout_below="@+id/component_id_field"
         android:text="@string/client_name_textview" />
 
     <TextView
@@ -58,8 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="191dp"
+        android:layout_below="@+id/client_name_field"
         android:text="@string/order_date_textview" />
 
     <TextView
@@ -67,17 +62,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="283dp"
+        android:layout_below="@+id/order_date_field"
         android:text="@string/product_name_quantity_textview" />
 
     <ListView
         android:id="@+id/product_names_listview"
         android:layout_width="317dp"
-        android:layout_height="309dp"
+        android:layout_height="240dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/product_name_textview"
-        android:layout_above="@+id/delete_market_order_button"/>
+        android:layout_below="@+id/product_name_textview" />
 
     <Button
         android:id="@+id/delete_market_order_button"
@@ -94,4 +87,23 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:visibility="gone"/>
+
+    <CheckBox
+        android:id="@+id/is_packed_checkbox"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/product_names_listview"
+        android:checked="false"
+        android:text="@string/ready_to_ship"
+        style="@style/NotEditable"/>
+
+    <CheckBox
+        android:id="@+id/is_shipped_checkbox"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/is_packed_checkbox"
+        android:text="@string/shipped" />
+
 </RelativeLayout>

@@ -91,7 +91,8 @@ public class MarketOrdersActivity extends AppCompatActivity
 				jsonMarketOrders = dataManager.getDataFromDB(
 						"SELECT MarketOrder.ID, name, order_date " +
 								"FROM MarketOrder JOIN Client " +
-								"ON MarketOrder.client_id=Client.ID;");
+								"ON MarketOrder.client_id=Client.ID " +
+								"ORDER BY name;");
 
 				for (int i = 0; i < jsonMarketOrders.length(); i++)
 					marketOrdersList.add(dataManager.jsonToHashMap(

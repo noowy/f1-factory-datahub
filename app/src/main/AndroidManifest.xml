@@ -27,7 +27,8 @@
         <activity android:name=".OpenFactoryOrderActivity" />
         <activity android:name=".MarketOrdersActivity" />
         <activity android:name=".OpenComponentActivity" />
-        <activity android:name=".OpenRouteActivity"></activity>
+        <activity android:name=".OpenRouteActivity" />
+        <activity android:name=".OpenWorkstationActivity"></activity>
     </application>
 
 </manifest>

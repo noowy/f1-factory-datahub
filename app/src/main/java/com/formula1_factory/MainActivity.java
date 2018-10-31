@@ -78,7 +78,8 @@ public class MainActivity extends AppCompatActivity
 						"SELECT Detail.ID, name, quantity " +
 								"FROM Detail LEFT OUTER JOIN Stock " +
 								"ON Detail.ID=Stock.component_id " +
-								"WHERE for_sale=true;");
+								"WHERE for_sale=true " +
+								"ORDER BY name;");
 
 				for (int i = 0; i < jsonProducts.length(); i++)
 					productsList.add(dataManager.jsonToHashMap(jsonProducts.getJSONObject(i)));

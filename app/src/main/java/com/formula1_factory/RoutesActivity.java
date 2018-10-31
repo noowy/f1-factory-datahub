@@ -55,8 +55,8 @@ public class RoutesActivity extends AppCompatActivity
 
 				Intent intent = new Intent(getApplicationContext(), OpenRouteActivity.class);
 
-				intent.putExtra("name", name);
-				intent.putExtra("ID", ID);
+				intent.putExtra("routeName", name);
+				intent.putExtra("routeID", ID);
 
 				startActivity(intent);
 			}
@@ -81,7 +81,8 @@ public class RoutesActivity extends AppCompatActivity
 			{
 				jsonRoutes = dataManager.getDataFromDB(
 						"SELECT name, ID " +
-								"FROM Route;");
+								"FROM Route " +
+								"ORDER BY name;");
 
 				for (int i = 0; i < jsonRoutes.length(); i++)
 					routesList.add(dataManager.jsonToHashMap(

@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -23,12 +26,17 @@ import java.util.HashMap;
 
 public class OpenMarketOrderActivity extends AppCompatActivity
 {
+	private static final Integer PACKED = 1;
+	private static final Integer SHIPPED = 1;
+
 	private EditText orderIDField;
 	private EditText clientNameField;
 	private EditText orderDateField;
 	private ListView productsListView;
 	private Button deleteOrderButton;
 	private ProgressBar loadingCircle;
+	private CheckBox isPackedCheckBox;
+	private CheckBox isShippedCheckBox;
 
 	private DataManager dataManager;
 
@@ -48,6 +56,8 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 		productsListView = (ListView) findViewById(R.id.product_names_listview);
 		deleteOrderButton = (Button) findViewById(R.id.delete_market_order_button);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
+		isPackedCheckBox = (CheckBox) findViewById(R.id.is_packed_checkbox);
+		isShippedCheckBox = (CheckBox) findViewById(R.id.is_shipped_checkbox);
 
 		Intent sourceIntent = getIntent();
 
@@ -57,13 +67,20 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 		orderID = sourceIntent.getStringExtra("orderID");
 		new LoadMarketOrder().execute();
 
-
 		deleteOrderButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
 				new DeleteMarketOrder().execute();
+			}
+		});
+		isShippedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+		{
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				new UpdateShippedState().execute(isChecked);
 			}
 		});
 	}
@@ -86,10 +103,13 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 			try
 			{
 				jsonOrderInfo = dataManager.getDataFromDB(
-						"SELECT MarketOrder.ID, Client.name, order_date " +
-								"FROM MarketOrder JOIN Client " +
+						"SELECT MarketOrder.ID, Client.name, order_date, is_packed, is_shipped " +
+								"FROM MarketOrder " +
+								"JOIN Client " +
 								"ON MarketOrder.client_id=Client.ID " +
-								"WHERE MarketOrder.ID=" + orderID + ";");
+								"JOIN Product_Order " +
+								"ON Product_Order.order_id=MarketOrder.ID " +
+								"WHERE MarketOrder.ID="+ orderID + ";");
 				jsonOrderProducts = dataManager.getDataFromDB(
 						"SELECT Detail.name, quantity " +
 								"FROM Detail JOIN Product_Order " +
@@ -115,6 +135,7 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 			orderIDField.setText(orderInfo.get("ID"));
 			orderDateField.setText(orderInfo.get("order_date"));
 			clientNameField.setText(orderInfo.get("name"));
+			isPackedCheckBox.setChecked(orderInfo.get("is_packed").equals(PACKED.toString()));
 
 			ListAdapter adapter = new SimpleAdapter(OpenMarketOrderActivity.this,
 					productsList,
@@ -122,6 +143,17 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 					new String[] { "name", "quantity", },
 					new int[] { android.R.id.text1, android.R.id.text2 });
 			productsListView.setAdapter(adapter);
+
+			if (orderInfo.get("is_shipped").equals(SHIPPED.toString()))
+			{
+				isShippedCheckBox.setChecked(true);
+
+				// setting checkbox uneditable for preventing user's misunderstanding
+				isShippedCheckBox.setClickable(false);
+				isShippedCheckBox.setCursorVisible(false);
+				isShippedCheckBox.setFocusable(false);
+				isShippedCheckBox.setFocusableInTouchMode(false);
+			}
 
 			try
 			{
@@ -174,6 +206,44 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 				Toast.makeText(OpenMarketOrderActivity.this,
 						R.string.error_occurred,
 						Toast.LENGTH_LONG).show();
+			}
+		}
+	}
+
+	class UpdateShippedState extends AsyncTask<Boolean, Void, Boolean>
+	{
+
+		@Override
+		protected void onPreExecute()
+		{
+			loadingCircle.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		protected Boolean doInBackground(Boolean... params)
+		{
+			try
+			{
+				return dataManager.updateDataInDB(
+						"UPDATE Product_Order " +
+								"SET is_shipped=" + params[0] + " " +
+								"WHERE order_id=" + orderID + ";");
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				return false;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result)
+		{
+			if (!result)
+			{
+				Toast.makeText(OpenMarketOrderActivity.this,
+						R.string.server_unavailable,
+						Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

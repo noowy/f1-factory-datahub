@@ -122,7 +122,7 @@ public class OpenComponentActivity extends AppCompatActivity
 			componentNameField.setText(componentInfo.get("name"));
 			quantityField.setText(componentInfo.get("quantity") + componentInfo.get("units"));
 			descriptionField.setText(componentInfo.get("description"));
-			lifespanField.setText(componentInfo.get("lifespan"));
+			lifespanField.setText(componentInfo.get("lifespan") + " days");
 
 			if (!componentInfo.get("quantity").equals("0"))
 			{

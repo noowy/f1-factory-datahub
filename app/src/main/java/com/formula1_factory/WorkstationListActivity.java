@@ -1,5 +1,6 @@
 package com.formula1_factory;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -19,7 +21,6 @@ import java.util.HashMap;
 
 public class WorkstationListActivity extends AppCompatActivity
 {
-	private Button addWorkstationButton;
 	private ListView workstationsListView;
 	private ProgressBar loadingCircle;
 
@@ -33,8 +34,6 @@ public class WorkstationListActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_workstation_list);
 
-
-		addWorkstationButton = (Button) findViewById(R.id.add_workstation_button);
 		workstationsListView = (ListView) findViewById(R.id.workstations_list);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
 
@@ -42,21 +41,23 @@ public class WorkstationListActivity extends AppCompatActivity
 		workstationsList = new ArrayList<>();
 		new LoadAllWorkstations().execute();
 
-		addWorkstationButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-
-			}
-		});
-
 		workstationsListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
+				String ID = ((TextView) view.findViewById(android.R.id.text1)).
+						getText().toString();
+				String processName = ((TextView) view.findViewById(android.R.id.text2)).
+						getText().toString();
 
+				Intent openWorkstationIntent = new Intent(getApplicationContext(),
+						OpenWorkstationActivity.class);
+
+				openWorkstationIntent.putExtra("ID", ID);
+				openWorkstationIntent.putExtra("processName", processName);
+
+				startActivity(openWorkstationIntent);
 			}
 		});
 	}
@@ -79,7 +80,8 @@ public class WorkstationListActivity extends AppCompatActivity
 				jsonWorkstations = dataManager.getDataFromDB(
 						"SELECT Workstation.ID, name " +
 								"FROM Workstation JOIN Process " +
-								"ON Workstation.process_id=Process.ID;");
+								"ON Workstation.process_id=Process.ID " +
+								"ORDER BY Workstation.ID;");
 
 				for (int i = 0; i < jsonWorkstations.length(); i++)
 					workstationsList.add(dataManager.jsonToHashMap(
