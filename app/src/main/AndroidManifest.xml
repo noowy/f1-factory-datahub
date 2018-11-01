@@ -29,7 +29,8 @@
         <activity android:name=".OpenComponentActivity" />
         <activity android:name=".OpenRouteActivity" />
         <activity android:name=".OpenWorkstationActivity" />
-        <activity android:name=".OpenProductActivity"></activity>
+        <activity android:name=".OpenProductActivity" />
+        <activity android:name=".OpenCartActivity"></activity>
     </application>
 
 </manifest>

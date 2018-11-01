@@ -92,7 +92,7 @@ public class MarketOrdersActivity extends AppCompatActivity
 						"SELECT MarketOrder.ID, name, order_date " +
 								"FROM MarketOrder JOIN Client " +
 								"ON MarketOrder.client_id=Client.ID " +
-								"ORDER BY name;");
+								"ORDER BY order_date DESC;");
 
 				for (int i = 0; i < jsonMarketOrders.length(); i++)
 					marketOrdersList.add(dataManager.jsonToHashMap(
