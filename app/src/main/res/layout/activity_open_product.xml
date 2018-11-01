@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OpenProductActivity">
+
+    <TextView
+        android:id="@+id/prodcut_id_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/product_id" />
+
+    <EditText
+        android:id="@+id/prodcut_id_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/prodcut_id_textview"
+        android:ems="10"
+        style="@style/NotEditable"
+        />
+
+    <TextView
+        android:id="@+id/product_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/prodcut_id_field"
+        android:text="@string/product_name_textview" />
+
+    <EditText
+        android:id="@+id/product_name_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/product_name_textview"
+        android:ems="10"
+        style="@style/NotEditable"
+        />
+
+    <TextView
+        android:id="@+id/description_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/product_name_field"
+        android:text="@string/description" />
+
+    <EditText
+        android:id="@+id/description_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/description_textview"
+        android:ems="10"
+        style="@style/NotEditable"
+        />
+
+    <TextView
+        android:id="@+id/lifespan_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/description_field"
+        android:text="@string/lifespan" />
+
+    <EditText
+        android:id="@+id/lifespan_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lifespan_textview"
+        android:ems="10"
+        style="@style/NotEditable" />
+
+    <TextView
+        android:id="@+id/quantity_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lifespan_field"
+        android:text="@string/quantity_textview" />
+
+    <EditText
+        android:id="@+id/quantity_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/quantity_textview"
+        style="@style/NotEditable"
+        android:ems="10"/>
+
+    <TextView
+        android:id="@+id/manufacture_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/quantity_field"
+        android:text="@string/manufacture_date"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/manufacture_date_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/manufacture_date_textview"
+        style="@style/NotEditable"
+        android:ems="10"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/expiration_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/manufacture_date_field"
+        android:text="@string/expiration_date"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/expiration_date_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/expiration_date_textview"
+        style="@style/NotEditable"
+        android:ems="10"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/loadingCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+
+        <Button
+            android:id="@+id/add_to_cart_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="55"
+            android:text="@string/add_to_cart" />
+
+        <Button
+            android:id="@+id/subtract_quantity_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:text="-"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/quantity_to_buy_textview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:text="1"
+            android:textSize="30sp"
+            android:textAlignment="center"/>
+
+        <Button
+            android:id="@+id/add_quantity_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:text="+"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -43,4 +43,7 @@
     <string name="ready_to_ship">Ready for shipping</string>
     <string name="shipped">Shipped to Customer</string>
     <string name="data_updated">Data has been updated</string>
+    <string name="go_to_cart">Open Cart</string>
+    <string name="product_id">Product ID</string>
+    <string name="add_to_cart">Add to Cart</string>
 </resources>

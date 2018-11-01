@@ -15,13 +15,16 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
 {
+	public static final Integer ADD_TO_CART = 200;
+
     private Button manufactureButton;
     private ListView productsListView;
-    private Button newOrderButton;
+    private Button openCartButton;
 	private ProgressBar loadingCircle;
 
     private DataManager dataManager;
 
+    private ArrayList<HashMap<String, String>> cartItems;
     private ArrayList<HashMap<String, String>> productsList;
 
     @Override
@@ -31,12 +34,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 		manufactureButton = (Button) findViewById(R.id.manufacture_button);
-		newOrderButton = (Button) findViewById(R.id.order_products_button);
+		openCartButton = (Button) findViewById(R.id.open_cart_button);
 		productsListView = (ListView) findViewById(R.id.products_list);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
 
 		dataManager = new DataManager();
 		productsList = new ArrayList<HashMap<String, String>>();
+		cartItems = new ArrayList<>();
 		new LoadProductsTask().execute();
 
         manufactureButton.setOnClickListener(new View.OnClickListener()
@@ -54,9 +58,43 @@ public class MainActivity extends AppCompatActivity
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
+				String ID = ((TextView) view.findViewById(R.id.product_id)).
+						getText().toString();
+				String name = ((TextView) view.findViewById(R.id.product_name)).
+						getText().toString();
+				String quantity = ((TextView) view.findViewById(R.id.product_quantity)).
+						getText().toString();
+
+				Intent openProductIntent = new Intent(getApplicationContext(),
+						OpenProductActivity.class);
+
+				openProductIntent.putExtra("ID", ID);
+				openProductIntent.putExtra("name", name);
+				openProductIntent.putExtra("quantity", quantity);
+				startActivityForResult(openProductIntent, ADD_TO_CART);
+			}
+		});
+
+		openCartButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
 
 			}
 		});
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int responseCode, Intent data)
+	{
+		if (responseCode == ADD_TO_CART)
+		{
+			HashMap<String, String> cartItem = new HashMap<>();
+			cartItem.put("ID", data.getStringExtra("ID"));
+			cartItem.put("quantity", data.getStringExtra("quantity"));
+			cartItems.add(cartItem);
+		}
 	}
 
     class LoadProductsTask extends AsyncTask<Void, Void, Void>
