@@ -9,6 +9,6 @@ Data stored in MySQL database on a remote HTTP server which translates query sen
 Min requirements for the app:  
 Android SDK version 23 or higher  
 
-Min requirements for the server:  
+Min requirements for the server(https://github.com/noowy/f1factory-datahub-server):  
 PHP 7.0 or higher  
 Maria DB 10.1.26 or higher
