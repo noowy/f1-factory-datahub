@@ -66,4 +66,7 @@ fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
 
+# server side of the app
+server/
+
 >>>>>>> 3ee884594988daf7f7191f21d5a3a15ed7d4d66f
