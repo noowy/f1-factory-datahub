@@ -47,9 +47,9 @@ public class OpenProductActivity extends AppCompatActivity
 		quantityField = (EditText) findViewById(R.id.quantity_field);
 		descriptionField = (EditText) findViewById(R.id.description_field);
 		lifespanField = (EditText) findViewById(R.id.lifespan_field);
-		manufactureDateField =(EditText) findViewById(R.id.manufacture_date_field);
+		manufactureDateField =(EditText) findViewById(R.id.availability_date_field);
 		expirationDateField = (EditText) findViewById(R.id.expiration_date_field);
-		manufactureDateTextView = (TextView) findViewById(R.id.manufacture_date_textview);
+		manufactureDateTextView = (TextView) findViewById(R.id.availability_date_textview);
 		expirationDateTextView = (TextView) findViewById(R.id.expiration_date_textview);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
 		addToCartButton = (Button) findViewById(R.id.add_to_cart_button);
@@ -75,7 +75,8 @@ public class OpenProductActivity extends AppCompatActivity
 				Intent resultIntent = getIntent();
 				setResult(MainActivity.ADD_TO_CART, resultIntent);
 				resultIntent.putExtra("ID", productInfo.get("ID"));
-				resultIntent.putExtra("quantity", quantityToBuyTextView.getText().toString());
+				resultIntent.putExtra("qtyToBuy", quantityToBuyTextView.getText().toString());
+				resultIntent.putExtra("qtyInStock", productInfo.get("quantity"));
 				finish();
 			}
 		});

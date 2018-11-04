@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity
 {
 	public static final Integer ADD_TO_CART = 200;
+	public static final Integer ORDERED = 300;
 
     private Button manufactureButton;
     private ListView productsListView;
@@ -80,7 +81,11 @@ public class MainActivity extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
+				Intent openCartIntent = new Intent(getApplicationContext(),
+						OpenCartActivity.class);
 
+				openCartIntent.putExtra("cartItems", cartItems);
+				startActivityForResult(openCartIntent, ORDERED);
 			}
 		});
 	}
@@ -92,8 +97,15 @@ public class MainActivity extends AppCompatActivity
 		{
 			HashMap<String, String> cartItem = new HashMap<>();
 			cartItem.put("ID", data.getStringExtra("ID"));
-			cartItem.put("quantity", data.getStringExtra("quantity"));
+			cartItem.put("qtyToBuy", data.getStringExtra("qtyToBuy"));
+			cartItem.put("qtyInStock", data.getStringExtra("qtyInStock"));
 			cartItems.add(cartItem);
+		}
+		else if (responseCode == ORDERED)
+		{
+			Intent reloadIntent = getIntent();
+			finish();
+			startActivity(reloadIntent);
 		}
 	}
 

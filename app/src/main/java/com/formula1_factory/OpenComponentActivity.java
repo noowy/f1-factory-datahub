@@ -42,9 +42,9 @@ public class OpenComponentActivity extends AppCompatActivity
 		quantityField = (EditText) findViewById(R.id.quantity_field);
 		descriptionField = (EditText) findViewById(R.id.description_field);
 		lifespanField = (EditText) findViewById(R.id.lifespan_field);
-		manufactureDateField =(EditText) findViewById(R.id.manufacture_date_field);
+		manufactureDateField =(EditText) findViewById(R.id.availability_date_field);
 		expirationDateField = (EditText) findViewById(R.id.expiration_date_field);
-		manufactureDateTextView = (TextView) findViewById(R.id.manufacture_date_textview);
+		manufactureDateTextView = (TextView) findViewById(R.id.availability_date_textview);
 		expirationDateTextView = (TextView) findViewById(R.id.expiration_date_textview);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
 

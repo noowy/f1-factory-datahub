@@ -47,4 +47,5 @@
     <string name="product_id">Product ID</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="total_price">Total Price</string>
+    <string name="availability_date">Will be shipped after</string>
 </resources>

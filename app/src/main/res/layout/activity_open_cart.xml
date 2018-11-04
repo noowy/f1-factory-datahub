@@ -47,39 +47,19 @@
         style="@style/NotEditable" />
 
     <TextView
-        android:id="@+id/manufacture_date_textview"
+        android:id="@+id/availability_date_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/total_price_field"
-        android:text="@string/manufacture_date"
-         />
+        android:text="@string/availability_date" />
 
     <EditText
-        android:id="@+id/manufacture_date_field"
+        android:id="@+id/availability_date_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/manufacture_date_textview"
-        style="@style/NotEditable"
-        android:ems="10"
-         />
-
-    <TextView
-        android:id="@+id/expiration_date_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/manufacture_date_field"
-        android:text="@string/expiration_date"
-         />
-
-    <EditText
-        android:id="@+id/expiration_date_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/expiration_date_textview"
+        android:layout_below="@+id/availability_date_textview"
         style="@style/NotEditable"
         android:ems="10"
          />
