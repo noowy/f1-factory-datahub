@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayList<HashMap<String, String>> cartItems;
     private ArrayList<HashMap<String, String>> productsList;
+    private String clientID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,6 +43,14 @@ public class MainActivity extends AppCompatActivity
 		dataManager = new DataManager();
 		productsList = new ArrayList<HashMap<String, String>>();
 		cartItems = new ArrayList<>();
+
+		Intent sourceIntent = getIntent();
+		clientID = sourceIntent.getStringExtra("clientID");
+		clientID = clientID.equals("null") ? null : clientID;
+
+		if (clientID != null)
+			manufactureButton.setVisibility(View.GONE);
+
 		new LoadProductsTask().execute();
 
         manufactureButton.setOnClickListener(new View.OnClickListener()
@@ -85,6 +94,7 @@ public class MainActivity extends AppCompatActivity
 						OpenCartActivity.class);
 
 				openCartIntent.putExtra("cartItems", cartItems);
+				openCartIntent.putExtra("clientID", clientID);
 				startActivityForResult(openCartIntent, ORDERED);
 			}
 		});

@@ -58,6 +58,8 @@ public class OpenCartActivity extends AppCompatActivity
 				setResult(MainActivity.ORDERED, resultIntent);
 				// don't forget to add .get() call to check the integrity
 				// (prolly must do the same with orders)
+
+				// TODO: Add some check for client id being not null
 				finish();
 			}
 		});

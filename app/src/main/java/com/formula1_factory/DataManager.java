@@ -28,7 +28,7 @@ public class DataManager
 
 	DataManager()
 	{
-		dbAddress = "http://192.168.0.101/index.php"; // 192.168.43.197 for wifi hotspot
+		dbAddress = "http://192.168.0.102/index.php"; // 192.168.43.197 for wifi hotspot
 		username = "f1drm";
 		password = "4563728deK";
 	}
