@@ -239,6 +239,8 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 		@Override
 		protected void onPostExecute(Boolean result)
 		{
+			loadingCircle.setVisibility(View.GONE);
+
 			if (!result)
 			{
 				Toast.makeText(OpenMarketOrderActivity.this,

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -13,6 +14,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import org.json.*;
 
@@ -46,6 +49,10 @@ public class DataManager
 		JSONObject result = null;
 
 		result = makeQueryToDB(query);
+
+		if (result == null)
+			return null;
+
 		if (!result.getBoolean("success"))
 			return null;
 
@@ -57,7 +64,21 @@ public class DataManager
 		JSONObject result;
 		result = makeQueryToDB(query);
 
-		return result.getBoolean("success");
+		return result != null && result.getBoolean("success");
+	}
+
+	public JSONArray saveDataToDB(String query, HashMap<String, String> params) throws Exception
+	{
+		JSONObject result;
+		result = makeQueryToDB(query, params);
+
+		if (result == null)
+			return null;
+
+		if (!result.getBoolean("success"))
+			return null;
+
+		return result.getJSONArray("content");
 	}
 
 	public boolean updateDataInDB(String query) throws Exception
@@ -65,7 +86,7 @@ public class DataManager
 		JSONObject result;
 		result = makeQueryToDB(query);
 
-		return result.getBoolean("success");
+		return result != null && result.getBoolean("success");
 	}
 
 	public boolean deleteDataFromDB(String query) throws Exception
@@ -73,7 +94,7 @@ public class DataManager
 		JSONObject result;
 		result = makeQueryToDB(query);
 
-		return result.getBoolean("success");
+		return result != null && result.getBoolean("success");
 	}
 
 	public HashMap<String, String> jsonToHashMap(JSONObject jsonObject)
@@ -137,6 +158,42 @@ public class DataManager
 		return result;
 	}
 
+	private JSONObject makeQueryToDB(String query, HashMap<String, String> params)
+			throws Exception
+	{
+		if (query.length() == 0)
+			return null;
+
+		String encodedQuery = URLEncoder.encode(query, "UTF-8");
+		JSONObject result = null;
+
+		URL dbURL = new URL(dbAddress);
+		HttpURLConnection connection = (HttpURLConnection) dbURL.openConnection();
+		connection.setDoOutput(true);
+
+		try
+		{
+			OutputStreamWriter request = new OutputStreamWriter(
+					connection.getOutputStream());
+			request.write("query=" + encodedQuery +
+					"&username=" + URLEncoder.encode(username, "UTF-8") +
+					"&password=" + URLEncoder.encode(password, "UTF-8") +
+					convertToHttpRequest(params, "UTF-8"));
+			request.close();
+		}
+		catch (IOException e)
+		{
+			return new JSONObject().accumulate("success", false);
+		}
+
+		BufferedReader response = new BufferedReader(
+				new InputStreamReader(connection.getInputStream()));
+		result = new JSONObject(convertToString(response));
+		response.close();
+
+		return result;
+	}
+
 	private String convertToString(BufferedReader reader) throws IOException
 	{
 		StringBuilder builder = new StringBuilder();
@@ -146,5 +203,26 @@ public class DataManager
 			builder.append(line);
 
 		return builder.toString();
+	}
+
+	private String convertToHttpRequest(HashMap<String, String> params, String encoding)
+	{
+		StringBuilder result = new StringBuilder();
+
+		for (Map.Entry<String, String> value : params.entrySet())
+		{
+			try
+			{
+				result.append("&" + value.getKey() + "=");
+				result.append(URLEncoder.encode(value.getValue(), encoding));
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		return result.toString();
 	}
 }

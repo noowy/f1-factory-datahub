@@ -48,6 +48,9 @@
     <string name="add_to_cart">Add to Cart</string>
     <string name="total_price">Total Price</string>
     <string name="availability_date">Shipping date</string>
+    <string name="today">Today</string>
+    <string name="timeout_error">Processing has been shut due to a timeout.
+        Probably the server is unavailable</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

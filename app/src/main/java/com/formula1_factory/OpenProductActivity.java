@@ -75,8 +75,10 @@ public class OpenProductActivity extends AppCompatActivity
 				Intent resultIntent = getIntent();
 				setResult(MainActivity.ADD_TO_CART, resultIntent);
 				resultIntent.putExtra("ID", productInfo.get("ID"));
+				resultIntent.putExtra("name", productInfo.get("name"));
 				resultIntent.putExtra("qtyToBuy", quantityToBuyTextView.getText().toString());
 				resultIntent.putExtra("qtyInStock", productInfo.get("quantity"));
+				resultIntent.putExtra("manufacture_date", productInfo.get("manufacture_date"));
 				finish();
 			}
 		});

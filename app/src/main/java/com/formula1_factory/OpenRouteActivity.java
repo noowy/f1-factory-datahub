@@ -84,7 +84,7 @@ public class OpenRouteActivity extends AppCompatActivity
 			{
 				jsonRouteInfo = dataManager.getDataFromDB(
 						"SELECT Route.description, " +
-									"(SUM(Route_Process.transportation_time) + " + // %2B is a + sign for http request
+									"(SUM(Route_Process.transportation_time) + " +
 										"SUM(Process.completion_time)) AS completion_time, " +
 									"Detail.name AS detail_name " +
 								"FROM Route " +

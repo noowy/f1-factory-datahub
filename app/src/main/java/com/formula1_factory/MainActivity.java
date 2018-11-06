@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity
 
 		if (clientID != null)
 			manufactureButton.setVisibility(View.GONE);
+		else
+			openCartButton.setVisibility(View.GONE);
 
 		new LoadProductsTask().execute();
 
@@ -107,8 +109,10 @@ public class MainActivity extends AppCompatActivity
 		{
 			HashMap<String, String> cartItem = new HashMap<>();
 			cartItem.put("ID", data.getStringExtra("ID"));
+			cartItem.put("name", data.getStringExtra("name"));
 			cartItem.put("qtyToBuy", data.getStringExtra("qtyToBuy"));
 			cartItem.put("qtyInStock", data.getStringExtra("qtyInStock"));
+			cartItem.put("manufacture_date", data.getStringExtra("manufacture_date"));
 			cartItems.add(cartItem);
 		}
 		else if (responseCode == ORDERED)

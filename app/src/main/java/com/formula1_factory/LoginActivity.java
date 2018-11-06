@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 
@@ -176,7 +177,7 @@ public class LoginActivity extends Activity
 
 	private boolean isPasswordValid(String password)
 	{
-		return password.length() > 4;
+		return password.length() >= 6;
 	}
 
 	/**
@@ -251,13 +252,15 @@ public class LoginActivity extends Activity
 								"FROM Account " +
 								"WHERE login=\"" + mEmail + "\";");
 				if (jsonAccountInfo == null)
+				{
+					Toast.makeText(LoginActivity.this,
+							R.string.server_unavailable,
+							Toast.LENGTH_SHORT).show();
 					return false;
+				}
 
 				accountInfo = dataManager.jsonToHashMap(
 							jsonAccountInfo.getJSONObject(0));
-
-				// Simulate network access.
-				Thread.sleep(2000);
 			}
 			catch (Exception e)
 			{
