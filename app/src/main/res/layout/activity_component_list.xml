@@ -6,13 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ComponentListActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
     <ListView
         android:id="@+id/component_list"
         android:layout_width="match_parent"
-        android:layout_height="521dp"
+        android:layout_height="530dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="29dp" />
+        android:layout_above="@id/order_component_button"
+        android:layout_below="@id/component_name_textview"/>
 
     <Button
         android:id="@+id/order_component_button"
@@ -28,9 +37,8 @@
         android:id="@+id/component_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/component_list"
+        android:layout_below="@+id/my_toolbar"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="-29dp"
         android:text="@string/component_name_textview" />
 
     <TextView
@@ -39,7 +47,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/component_list"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="-29dp"
         android:layout_marginEnd="52dp"
         android:text="@string/quantity_textview" />
 
@@ -57,7 +64,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/component_list"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="-29dp"
         android:layout_marginEnd="12dp"
         android:text="@string/units" />
 </RelativeLayout>

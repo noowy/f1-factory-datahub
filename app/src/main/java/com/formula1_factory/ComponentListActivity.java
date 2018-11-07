@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,6 +28,7 @@ public class ComponentListActivity extends AppCompatActivity
 	private Button orderButton;
 	private ListView componentListView;
 	private ProgressBar loadingCircle;
+	private Toolbar appToolbar;
 
 	private DataManager dataManager;
 
@@ -38,6 +43,8 @@ public class ComponentListActivity extends AppCompatActivity
 		orderButton = (Button) findViewById(R.id.order_component_button);
 		componentListView = (ListView) findViewById(R.id.component_list);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
+		appToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+		setSupportActionBar(appToolbar);
 
 		dataManager = new DataManager();
 		componentList = new ArrayList<HashMap<String, String>>();
@@ -77,6 +84,73 @@ public class ComponentListActivity extends AppCompatActivity
 				startActivity(openComponentIntent);
 			}
 		});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_action_bar, menu);
+
+		final android.support.v7.widget.SearchView searchView =
+				(android.support.v7.widget.SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+
+		searchView.setOnCloseListener(new SearchView.OnCloseListener()
+		{
+			@Override
+			public boolean onClose()
+			{
+				searchView.onActionViewCollapsed();
+				updateComponentsListView(componentList);
+				return true;
+			}
+		});
+
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+		{
+			@Override
+			public boolean onQueryTextSubmit(String query)
+			{
+				updateComponentsListView(searchComponents(query));
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText)
+			{
+				updateComponentsListView(searchComponents(newText));
+				return true;
+			}
+		});
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	private void updateComponentsListView(ArrayList<HashMap<String, String>> updatedList)
+	{
+		ListAdapter adapter = new SimpleAdapter(ComponentListActivity.this,
+				updatedList,
+				R.layout.component_list_item ,
+				new String[] { "ID", "name", "quantity", "units" },
+				new int[] { R.id.component_id,
+						R.id.component_name,
+						R.id.component_quantity,
+						R.id.component_units });
+		componentListView.setAdapter(adapter);
+	}
+
+	private ArrayList<HashMap<String, String>> searchComponents(String query)
+	{
+		ArrayList<HashMap<String, String>> result = new ArrayList<>();
+
+		for (HashMap<String, String> component : componentList)
+		{
+			if (component.get("name").toLowerCase().contains(query.toLowerCase()) ||
+				component.get("ID").toLowerCase().contains(query.toLowerCase()))
+				result.add(component);
+		}
+
+		return result;
 	}
 
 	class LoadAllComponentsTask extends AsyncTask<Void, Void, Void>

@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -25,6 +29,7 @@ public class MarketOrdersActivity extends AppCompatActivity
 
 	private ListView marketOrdersListView;
 	private ProgressBar loadingCircle;
+	private Toolbar appToolbar;
 
 	private DataManager dataManager;
 
@@ -38,6 +43,8 @@ public class MarketOrdersActivity extends AppCompatActivity
 
 		marketOrdersListView = (ListView) findViewById(R.id.market_orders_list);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
+		appToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+		setSupportActionBar(appToolbar);
 
 		dataManager = new DataManager();
 		marketOrdersList = new ArrayList<>();
@@ -56,6 +63,71 @@ public class MarketOrdersActivity extends AppCompatActivity
 				startActivityForResult(openOrderIntent, DELETED);
 			}
 		});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_action_bar, menu);
+
+		final android.support.v7.widget.SearchView searchView =
+				(android.support.v7.widget.SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+
+		searchView.setOnCloseListener(new SearchView.OnCloseListener()
+		{
+			@Override
+			public boolean onClose()
+			{
+				searchView.onActionViewCollapsed();
+				updateMarketOrdersListView(marketOrdersList);
+				return true;
+			}
+		});
+
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+		{
+			@Override
+			public boolean onQueryTextSubmit(String query)
+			{
+				updateMarketOrdersListView(searchMarketOrder(query));
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText)
+			{
+				updateMarketOrdersListView(searchMarketOrder(newText));
+				return true;
+			}
+		});
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	private void updateMarketOrdersListView(ArrayList<HashMap<String, String>> updatedList)
+	{
+		ListAdapter adapter = new SimpleAdapter(MarketOrdersActivity.this,
+				updatedList,
+				R.layout.market_order_list_item,
+				new String[] { "ID", "name", "order_date" },
+				new int[] { R.id.order_id, R.id.client_name, R.id.order_date});
+		marketOrdersListView.setAdapter(adapter);
+	}
+
+	private ArrayList<HashMap<String, String>> searchMarketOrder(String query)
+	{
+		ArrayList<HashMap<String, String>> result = new ArrayList<>();
+
+		for (HashMap<String, String> marketOrder : marketOrdersList)
+		{
+			if (marketOrder.get("name").toLowerCase().contains(query.toLowerCase()) ||
+					marketOrder.get("ID").toLowerCase().contains(query.toLowerCase()) ||
+					marketOrder.get("order_date").toLowerCase().contains(query.toLowerCase()))
+				result.add(marketOrder);
+		}
+
+		return result;
 	}
 
 	@Override

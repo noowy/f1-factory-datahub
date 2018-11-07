@@ -1,8 +1,19 @@
 package com.formula1_factory;
 
+import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.*;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.*;
 import android.content.Intent;
@@ -22,12 +33,15 @@ public class MainActivity extends AppCompatActivity
     private ListView productsListView;
     private Button openCartButton;
 	private ProgressBar loadingCircle;
+	private android.support.v7.widget.Toolbar appToolbar;
 
     private DataManager dataManager;
 
     private ArrayList<HashMap<String, String>> cartItems;
     private ArrayList<HashMap<String, String>> productsList;
+    private ListAdapter productsAdapter;
     private String clientID;
+    private boolean backToLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,21 +53,26 @@ public class MainActivity extends AppCompatActivity
 		openCartButton = (Button) findViewById(R.id.open_cart_button);
 		productsListView = (ListView) findViewById(R.id.products_list);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
+		appToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.my_toolbar);
+		setSupportActionBar(appToolbar);
 
 		dataManager = new DataManager();
 		productsList = new ArrayList<HashMap<String, String>>();
 		cartItems = new ArrayList<>();
 
+		new LoadProductsTask().execute();
+
 		Intent sourceIntent = getIntent();
 		clientID = sourceIntent.getStringExtra("clientID");
 		clientID = clientID.equals("null") ? null : clientID;
 
+		// clients are not allowed to see manufacture side of app
+		// and workers are not allowed to "buy" products
 		if (clientID != null)
 			manufactureButton.setVisibility(View.GONE);
 		else
 			openCartButton.setVisibility(View.GONE);
 
-		new LoadProductsTask().execute();
 
         manufactureButton.setOnClickListener(new View.OnClickListener()
         {
@@ -103,6 +122,70 @@ public class MainActivity extends AppCompatActivity
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_action_bar, menu);
+
+		final android.support.v7.widget.SearchView searchView =
+				(android.support.v7.widget.SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+
+		searchView.setOnCloseListener(new SearchView.OnCloseListener()
+		{
+			@Override
+			public boolean onClose()
+			{
+				searchView.onActionViewCollapsed();
+				updateProductsTextView(productsList);
+				return true;
+			}
+		});
+
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+		{
+			@Override
+			public boolean onQueryTextSubmit(String query)
+			{
+				updateProductsTextView(searchProducts(query));
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText)
+			{
+				updateProductsTextView(searchProducts(newText));
+				return true;
+			}
+		});
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	private void updateProductsTextView(ArrayList<HashMap<String, String>> updatedList)
+	{
+		ListAdapter adapter = new SimpleAdapter(MainActivity.this,
+				updatedList,
+				R.layout.market_list_item,
+				new String[] {"ID", "name", "quantity"},
+				new int[] {R.id.product_id, R.id.product_name, R.id.product_quantity });
+		productsListView.setAdapter(adapter);
+	}
+
+	private ArrayList<HashMap<String, String>> searchProducts(String query)
+	{
+		ArrayList<HashMap<String, String>> result = new ArrayList<>();
+
+		for (HashMap<String, String> product : productsList)
+		{
+			if (product.get("name").toLowerCase().contains(query.toLowerCase()) ||
+				product.get("ID").toLowerCase().contains(query.toLowerCase()))
+				result.add(product);
+		}
+
+		return result;
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int responseCode, Intent data)
 	{
 		if (responseCode == ADD_TO_CART)
@@ -120,6 +203,39 @@ public class MainActivity extends AppCompatActivity
 			Intent reloadIntent = getIntent();
 			finish();
 			startActivity(reloadIntent);
+		}
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if (hasWindowFocus())
+		{
+			AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+			dialogBuilder.setTitle(R.string.confirm_exit);
+			dialogBuilder.setMessage(R.string.sureness_check);
+
+			dialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					finish();
+				}
+			});
+
+			dialogBuilder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					dialog.dismiss();
+				}
+			});
+
+			AlertDialog alert = dialogBuilder.create();
+			alert.show();
 		}
 	}
 
@@ -169,12 +285,12 @@ public class MainActivity extends AppCompatActivity
 				return;
 			}
 
-			ListAdapter adapter = new SimpleAdapter(MainActivity.this,
+			productsAdapter = new SimpleAdapter(MainActivity.this,
 					productsList,
 					R.layout.market_list_item,
 					new String[] {"ID", "name", "quantity"},
 					new int[] {R.id.product_id, R.id.product_name, R.id.product_quantity });
-			productsListView.setAdapter(adapter);
+			productsListView.setAdapter(productsAdapter);
 		}
 	}
 }

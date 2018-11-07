@@ -52,6 +52,11 @@
     <string name="timeout_error">Processing has been shut due to a timeout.
         Probably the server is unavailable</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="search_market_hint">Search products</string>
+    <string name="confirm_exit">Confirm exit</string>
+    <string name="sureness_check">Are you sure you want to log off?</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Login</string>

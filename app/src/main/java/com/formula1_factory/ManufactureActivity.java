@@ -3,23 +3,28 @@ package com.formula1_factory;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
 public class ManufactureActivity extends AppCompatActivity
 {
-	Button factoryOrdersButton;
-	Button componentListButton;
-	Button routesButton;
-	Button workstationsListButton;
-	Button marketOrdersButton;
-	Button marketButton;
+	private Button factoryOrdersButton;
+	private Button componentListButton;
+	private Button routesButton;
+	private Button workstationsListButton;
+	private Button marketOrdersButton;
+	private Button marketButton;
+	private Toolbar appToolbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manufacture);
+
+		appToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+		setSupportActionBar(appToolbar);
 
 		factoryOrdersButton = (Button) findViewById(R.id.factory_orders_button);
 		factoryOrdersButton.setOnClickListener(new View.OnClickListener()

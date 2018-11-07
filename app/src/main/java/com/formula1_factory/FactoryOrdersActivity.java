@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -24,8 +27,8 @@ public class FactoryOrdersActivity extends AppCompatActivity
 	public static final int DELETED = 200;
 
 	private	ListView factoryOrdersListView;
-	private Button addOrderButton;
 	private ProgressBar loadingCircle;
+	private Toolbar appToolbar;
 
 	private DataManager dataManager;
 
@@ -37,22 +40,14 @@ public class FactoryOrdersActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_factory_orders);
 
-		addOrderButton = (Button) findViewById(R.id.add_order_button);
 		factoryOrdersListView = (ListView) findViewById(R.id.factory_orders_list);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
+		appToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+		setSupportActionBar(appToolbar);
 
 		dataManager = new DataManager();
 		factoryOrdersList = new ArrayList<>();
 		new LoadAllFactoryOrders().execute();
-
-		addOrderButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-
-			}
-		});
 
 		factoryOrdersListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
@@ -76,6 +71,72 @@ public class FactoryOrdersActivity extends AppCompatActivity
 				startActivityForResult(openFactoryOrderIntent, DELETED);
 			}
 		});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_action_bar, menu);
+
+		final android.support.v7.widget.SearchView searchView =
+				(android.support.v7.widget.SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+
+		searchView.setOnCloseListener(new SearchView.OnCloseListener()
+		{
+			@Override
+			public boolean onClose()
+			{
+				searchView.onActionViewCollapsed();
+				updateFactoryOrdersListView(factoryOrdersList);
+				return true;
+			}
+		});
+
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+		{
+			@Override
+			public boolean onQueryTextSubmit(String query)
+			{
+				updateFactoryOrdersListView(searchFactoryOrders(query));
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText)
+			{
+				updateFactoryOrdersListView(searchFactoryOrders(newText));
+				return true;
+			}
+		});
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	private void updateFactoryOrdersListView(ArrayList<HashMap<String, String>> updatedList)
+	{
+		ListAdapter adapter = new SimpleAdapter(FactoryOrdersActivity.this,
+				updatedList,
+				R.layout.factory_order_item,
+				new String[] {"ID", "name", "quantity"},
+				new int[] {R.id.factory_order_id,
+						R.id.component_name,
+						R.id.component_quantity});
+		factoryOrdersListView.setAdapter(adapter);
+	}
+
+	private ArrayList<HashMap<String, String>> searchFactoryOrders(String query)
+	{
+		ArrayList<HashMap<String, String>> result = new ArrayList<>();
+
+		for (HashMap<String, String> factoryOrder : factoryOrdersList)
+		{
+			if (factoryOrder.get("name").toLowerCase().contains(query.toLowerCase()) ||
+				factoryOrder.get("ID").toLowerCase().contains(query.toLowerCase()))
+				result.add(factoryOrder);
+		}
+
+		return result;
 	}
 
 	@Override

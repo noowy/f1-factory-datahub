@@ -70,7 +70,6 @@ public class OpenCartActivity extends AppCompatActivity
 				AsyncTask<Void, Void, Boolean> processOrder = new ProcessMarketOrder().execute();
 				try
 				{
-					// if order isn't processed then a toast is also made
 					if (!processOrder.get(20, TimeUnit.SECONDS))
 					{
 						Toast.makeText(OpenCartActivity.this,
@@ -183,8 +182,8 @@ public class OpenCartActivity extends AppCompatActivity
 					R.layout.market_list_item,
 					new String[] { "name", "qtyToBuy" },
 					new int[] { R.id.product_name, R.id.product_quantity });
-			productsListView.setAdapter(adapter);
 
+			productsListView.setAdapter(adapter);
 			totalPriceField.setText(totalPrice);
 
 			if (isAvailableNow)
