@@ -57,6 +57,8 @@
     <string name="search_market_hint">Search products</string>
     <string name="confirm_exit">Confirm exit</string>
     <string name="sureness_check">Are you sure you want to log off?</string>
+    <string name="make_order">Order</string>
+    <string name="reproduce_component">Reproduce Component</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Login</string>

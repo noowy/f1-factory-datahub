@@ -25,7 +25,8 @@ import java.util.HashMap;
 
 public class ComponentListActivity extends AppCompatActivity
 {
-	private Button orderButton;
+	public static final Integer UPDATED = 200;
+
 	private ListView componentListView;
 	private ProgressBar loadingCircle;
 	private Toolbar appToolbar;
@@ -40,7 +41,6 @@ public class ComponentListActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_component_list);
 
-		orderButton = (Button) findViewById(R.id.order_component_button);
 		componentListView = (ListView) findViewById(R.id.component_list);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
 		appToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -49,15 +49,6 @@ public class ComponentListActivity extends AppCompatActivity
 		dataManager = new DataManager();
 		componentList = new ArrayList<HashMap<String, String>>();
 		new LoadAllComponentsTask().execute();
-
-		orderButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-
-			}
-		});
 
 		componentListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
@@ -72,6 +63,8 @@ public class ComponentListActivity extends AppCompatActivity
 						getText().toString();
 				String units = ((TextView) view.findViewById(R.id.component_units)).
 						getText().toString();
+				String manufactureDate = ((TextView) view.findViewById(R.id.manufacture_date)).
+						getText().toString();
 
 				Intent openComponentIntent = new Intent(getApplicationContext(),
 						OpenComponentActivity.class);
@@ -80,8 +73,9 @@ public class ComponentListActivity extends AppCompatActivity
 				openComponentIntent.putExtra("name", name);
 				openComponentIntent.putExtra("quantity", quantity);
 				openComponentIntent.putExtra("units", units);
+				openComponentIntent.putExtra("manufacture_date", manufactureDate);
 
-				startActivity(openComponentIntent);
+				startActivityForResult(openComponentIntent, UPDATED);
 			}
 		});
 	}
@@ -131,11 +125,12 @@ public class ComponentListActivity extends AppCompatActivity
 		ListAdapter adapter = new SimpleAdapter(ComponentListActivity.this,
 				updatedList,
 				R.layout.component_list_item ,
-				new String[] { "ID", "name", "quantity", "units" },
+				new String[] { "ID", "name", "quantity", "units", "manufacture_date" },
 				new int[] { R.id.component_id,
 						R.id.component_name,
 						R.id.component_quantity,
-						R.id.component_units });
+						R.id.component_units,
+						R.id.manufacture_date });
 		componentListView.setAdapter(adapter);
 	}
 
@@ -151,6 +146,17 @@ public class ComponentListActivity extends AppCompatActivity
 		}
 
 		return result;
+	}
+
+	@Override
+	protected void onActivityResult(int resultCode, int requestCode, Intent data)
+	{
+		if (resultCode == UPDATED)
+		{
+			Intent reloadIntent = getIntent();
+			finish();
+			startActivity(reloadIntent);
+		}
 	}
 
 	class LoadAllComponentsTask extends AsyncTask<Void, Void, Void>
@@ -169,10 +175,9 @@ public class ComponentListActivity extends AppCompatActivity
 			try
 			{
 				jsonComponents = dataManager.getDataFromDB(
-						"SELECT Detail.ID, name, quantity, units " +
+						"SELECT Detail.ID, name, quantity, units, manufacture_date " +
 								"FROM Detail LEFT OUTER JOIN Stock " +
 								"ON Detail.ID=Stock.component_id " +
-								"WHERE for_sale=false " +
 								"ORDER BY name;");
 				for (int i = 0; i < jsonComponents.length(); i++)
 					componentList.add(dataManager.jsonToHashMap(
@@ -199,12 +204,14 @@ public class ComponentListActivity extends AppCompatActivity
 			}
 
 			ListAdapter adapter = new SimpleAdapter(ComponentListActivity.this,
-					componentList, R.layout.component_list_item ,
-					new String[] { "ID", "name", "quantity", "units" },
+					componentList,
+					R.layout.component_list_item ,
+					new String[] { "ID", "name", "quantity", "units", "manufacture_date" },
 					new int[] { R.id.component_id,
 							R.id.component_name,
 							R.id.component_quantity,
-							R.id.component_units });
+							R.id.component_units,
+							R.id.manufacture_date});
 			componentListView.setAdapter(adapter);
 		}
 	}
