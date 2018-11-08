@@ -85,7 +85,7 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 		});
 	}
 
-	class LoadMarketOrder extends AsyncTask<Void, Void, Void>
+	class LoadMarketOrder extends AsyncTask<Void, Void, Boolean>
 	{
 
 		@Override
@@ -95,7 +95,7 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 		}
 
 		@Override
-		protected Void doInBackground(Void... voids)
+		protected Boolean doInBackground(Void... voids)
 		{
 			JSONArray jsonOrderInfo;
 			JSONArray jsonOrderProducts;
@@ -116,22 +116,37 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 								"ON Product_Order.component_id=Detail.ID " +
 								"WHERE order_id=" + orderID + ";");
 
+				if (jsonOrderInfo == null || jsonOrderProducts == null)
+					return false;
+
 				orderInfo = dataManager.jsonToHashMap(jsonOrderInfo.getJSONObject(0));
+
 				for (int i = 0; i < jsonOrderProducts.length(); i++)
 					productsList.add(dataManager.jsonToHashMap(
 							jsonOrderProducts.getJSONObject(i)));
+
+				return true;
 			}
 			catch (Exception e)
 			{
 				e.printStackTrace();
+				return false;
 			}
-
-			return null;
 		}
 
 		@Override
-		protected void onPostExecute(Void result)
+		protected void onPostExecute(Boolean result)
 		{
+			loadingCircle.setVisibility(View.GONE);
+
+			if (!result)
+			{
+				Toast.makeText(OpenMarketOrderActivity.this,
+						R.string.server_unavailable,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+
 			orderIDField.setText(orderInfo.get("ID"));
 			orderDateField.setText(orderInfo.get("order_date"));
 			clientNameField.setText(orderInfo.get("name"));
@@ -155,6 +170,16 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 				isShippedCheckBox.setFocusableInTouchMode(false);
 			}
 
+			if (!orderInfo.get("is_packed").equals(PACKED.toString()))
+			{
+				isPackedCheckBox.setChecked(false);
+
+				isShippedCheckBox.setClickable(false);
+				isShippedCheckBox.setCursorVisible(false);
+				isShippedCheckBox.setFocusable(false);
+				isShippedCheckBox.setFocusableInTouchMode(false);
+			}
+
 			try
 			{
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //  mysql date time format
@@ -165,10 +190,6 @@ public class OpenMarketOrderActivity extends AppCompatActivity
 			catch (ParseException e)
 			{
 				e.printStackTrace();
-			}
-			finally
-			{
-				loadingCircle.setVisibility(View.GONE);
 			}
 		}
 	}

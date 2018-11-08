@@ -64,8 +64,13 @@ public class OpenWorkstationActivity extends AppCompatActivity
 						"SELECT description " +
 								"FROM Workstation " +
 								"WHERE ID=" + workstationInfo.get("ID") + "");
+
+				if (jsonWorkstationInfo == null)
+					return false;
+
 				workstationInfo.putAll(dataManager.jsonToHashMap(
 						jsonWorkstationInfo.getJSONObject(0)));
+
 				return true;
 			}
 			catch (Exception e)

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -25,6 +26,8 @@ public class OpenFactoryOrderActivity extends AppCompatActivity
 	private EditText dueDateField;
 	private EditText quantityField;
 	private EditText routeNameField;
+	private TextView marketOrderTextview;
+	private EditText marketOrderField;
 	private Button deleteFactoryOrderButton;
 	private ProgressBar loadingCircle;
 
@@ -45,6 +48,8 @@ public class OpenFactoryOrderActivity extends AppCompatActivity
 		dueDateField = (EditText) findViewById(R.id.due_date_field);
 		quantityField = (EditText) findViewById(R.id.quantity_field);
 		routeNameField = (EditText) findViewById(R.id.route_field);
+		marketOrderTextview = (TextView) findViewById(R.id.market_order_textview);
+		marketOrderField = (EditText) findViewById(R.id.market_order_field);
 		loadingCircle = (ProgressBar) findViewById(R.id.loadingCircle);
 		deleteFactoryOrderButton = (Button) findViewById(R.id.delete_factory_order_button);
 
@@ -84,7 +89,7 @@ public class OpenFactoryOrderActivity extends AppCompatActivity
 			try
 			{
 				jsonOrderInfo = dataManager.getDataFromDB(
-						"SELECT Route.name, end_time, start_time " +
+						"SELECT Route.name, end_time, start_time, market_order " +
 								"FROM Factory_Orders JOIN Route " +
 								"ON Factory_Orders.route_id=Route.ID " +
 								"WHERE Factory_Orders.ID=" + factoryOrderID + ";");
@@ -109,6 +114,14 @@ public class OpenFactoryOrderActivity extends AppCompatActivity
 			dueDateField.setText(factoryOrderInfo.get("end_time"));
 			quantityField.setText(factoryOrderInfo.get("quantity"));
 			routeNameField.setText(factoryOrderInfo.get("name"));
+
+			if (!factoryOrderInfo.get("market_order").equals("null"))
+			{
+				marketOrderField.setText(factoryOrderInfo.get("market_order"));
+
+				marketOrderTextview.setVisibility(View.VISIBLE);
+				marketOrderField.setVisibility(View.VISIBLE);
+			}
 
 			try
 			{

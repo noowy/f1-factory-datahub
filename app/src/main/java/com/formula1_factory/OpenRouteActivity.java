@@ -111,6 +111,11 @@ public class OpenRouteActivity extends AppCompatActivity
 								"ON Detail.ID=Specification.component_id " +
 								"WHERE route_id=" + routeInfo.get("routeID") + ";");
 
+				if (jsonRouteInfo == null ||
+						jsonProcessesList == null ||
+						jsonComponentList == null)
+					return false;
+
 				routeInfo.putAll(dataManager.jsonToHashMap(jsonRouteInfo.getJSONObject(0)));
 
 				for (int i = 0; i < jsonProcessesList.length(); i++)
