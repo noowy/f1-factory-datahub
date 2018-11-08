@@ -196,6 +196,21 @@ public class MainActivity extends AppCompatActivity
 			cartItem.put("qtyToBuy", data.getStringExtra("qtyToBuy"));
 			cartItem.put("qtyInStock", data.getStringExtra("qtyInStock"));
 			cartItem.put("manufacture_date", data.getStringExtra("manufacture_date"));
+			cartItem.put("price", data.getStringExtra("price"));
+
+			for (int i = 0; i < cartItems.size(); i++)
+			{
+				if (cartItems.get(i).get("ID").equals(cartItem.get("ID")) &&
+					cartItems.get(i).get("manufacture_date").equals(cartItem.get("manufacture_date")))
+				{
+					Integer newQuantity = Integer.parseInt(cartItems.get(i).get("qtyToBuy")) +
+							Integer.parseInt(cartItem.get("qtyToBuy"));
+					cartItem.put("qtyToBuy", newQuantity.toString());
+					cartItems.set(i, cartItem);
+					return;
+				}
+			}
+
 			cartItems.add(cartItem);
 		}
 		else if (responseCode == ORDERED)

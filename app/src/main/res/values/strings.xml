@@ -60,6 +60,7 @@
     <string name="make_order">Order</string>
     <string name="reproduce_component">Reproduce Component</string>
     <string name="for_market_order">For market order</string>
+    <string name="product_price">Price</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Login</string>

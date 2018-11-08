@@ -103,6 +103,15 @@ public class LoginActivity extends Activity
 		mProgressView = findViewById(R.id.login_progress);
 	}
 
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+
+		mEmailView.setText("");
+		mPasswordView.setText("");
+	}
+
 	private void populateAutoComplete()
 	{
 		// TODO: Add file that keeps used logins and filling autocomplete with them
@@ -110,7 +119,7 @@ public class LoginActivity extends Activity
 
 
 	/**
-	 * Attempts to sign in or register the account specified by the login form.
+	 * Attempts to sign in to the account specified by the login form.
 	 * If there are form errors (invalid email, missing fields, etc.), the
 	 * errors are presented and no actual login attempt is made.
 	 */
@@ -132,7 +141,7 @@ public class LoginActivity extends Activity
 		boolean cancel = false;
 		View focusView = null;
 
-		// Check for a valid password, if the user entered one.
+		// Check for a valid password
 		if (!TextUtils.isEmpty(password) && !isPasswordValid(password))
 		{
 			mPasswordView.setError(getString(R.string.error_invalid_password));
@@ -214,7 +223,8 @@ public class LoginActivity extends Activity
 					mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
 				}
 			});
-		} else
+		}
+		else
 		{
 			// The ViewPropertyAnimator APIs are not available, so simply show
 			// and hide the relevant UI components.
@@ -251,6 +261,7 @@ public class LoginActivity extends Activity
 						"SELECT login, password, client_id " +
 								"FROM Account " +
 								"WHERE login=\"" + mEmail + "\";");
+
 				if (jsonAccountInfo == null)
 				{
 					Toast.makeText(LoginActivity.this,

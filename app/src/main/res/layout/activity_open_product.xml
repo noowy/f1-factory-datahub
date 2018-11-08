@@ -99,7 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/quantity_field"
+        android:layout_below="@+id/price_field"
         android:text="@string/manufacture_date"
         android:visibility="gone" />
 
@@ -182,5 +182,22 @@
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/price_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/quantity_field"
+        android:text="@string/product_price" />
+
+    <EditText
+        android:id="@+id/price_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/price_textview"
+        android:ems="10"
+        style="@style/NotEditable" />
 
 </RelativeLayout>

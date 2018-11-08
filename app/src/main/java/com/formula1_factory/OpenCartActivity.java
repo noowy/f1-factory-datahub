@@ -38,7 +38,7 @@ public class OpenCartActivity extends AppCompatActivity
 	private String clientID;
 	private Boolean isAvailableNow = true;
 	private String completionTime;
-	private String totalPrice;
+	private Integer totalPrice;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -109,6 +109,16 @@ public class OpenCartActivity extends AppCompatActivity
 		}
 	}
 
+	private void calculateTotalPrice()
+	{
+		totalPrice = 0;
+		for (HashMap<String, String> product : cartItems)
+		{
+			totalPrice += Integer.parseInt(product.get("price")) *
+					Integer.parseInt(product.get("qtyToBuy"));
+		}
+	}
+
 	class LoadOrderInfo extends AsyncTask<Void, Void, Boolean>
 	{
 
@@ -145,15 +155,6 @@ public class OpenCartActivity extends AppCompatActivity
 						return false;
 				}
 
-				totalPrice = dataManager.getDataFromDB(
-						"SELECT SUM(price) AS total_price " +
-								"FROM Detail " +
-								"WHERE ID IN " + productIDsToString() + ";").
-						getJSONObject(0).optString("total_price");
-
-				if (totalPrice == null)
-					return false;
-
 				return true;
 
 			}
@@ -184,7 +185,9 @@ public class OpenCartActivity extends AppCompatActivity
 					new int[] { R.id.product_name, R.id.product_quantity });
 
 			productsListView.setAdapter(adapter);
-			totalPriceField.setText(totalPrice);
+
+			calculateTotalPrice();
+			totalPriceField.setText(totalPrice.toString() + "$");
 
 			if (isAvailableNow)
 				availabilityDateField.setText(R.string.today);

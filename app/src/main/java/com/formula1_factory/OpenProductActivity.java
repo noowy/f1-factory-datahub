@@ -22,6 +22,7 @@ public class OpenProductActivity extends AppCompatActivity
 	private EditText quantityField;
 	private EditText descriptionField;
 	private EditText lifespanField;
+	private EditText priceField;
 	private EditText manufactureDateField;
 	private EditText expirationDateField;
 	private TextView manufactureDateTextView;
@@ -47,6 +48,7 @@ public class OpenProductActivity extends AppCompatActivity
 		quantityField = (EditText) findViewById(R.id.quantity_field);
 		descriptionField = (EditText) findViewById(R.id.description_field);
 		lifespanField = (EditText) findViewById(R.id.lifespan_field);
+		priceField = (EditText) findViewById(R.id.price_field);
 		manufactureDateField =(EditText) findViewById(R.id.manufacture_date_field);
 		expirationDateField = (EditText) findViewById(R.id.expiration_date_field);
 		manufactureDateTextView = (TextView) findViewById(R.id.manufacture_date_textview);
@@ -79,6 +81,7 @@ public class OpenProductActivity extends AppCompatActivity
 				resultIntent.putExtra("qtyToBuy", quantityToBuyTextView.getText().toString());
 				resultIntent.putExtra("qtyInStock", productInfo.get("quantity"));
 				resultIntent.putExtra("manufacture_date", productInfo.get("manufacture_date"));
+				resultIntent.putExtra("price", productInfo.get("price"));
 				finish();
 			}
 		});
@@ -135,18 +138,21 @@ public class OpenProductActivity extends AppCompatActivity
 				if (productInfo.get("quantity").equals("0"))
 				{
 					jsonProductInfo = dataManager.getDataFromDB(
-							"SELECT description, lifespan " +
+							"SELECT description, lifespan, price " +
 									"FROM Detail " +
 									"WHERE Detail.ID=" + productInfo.get("ID") + ";");
 				}
 				else
 				{
 					jsonProductInfo = dataManager.getDataFromDB(
-							"SELECT description, lifespan, manufacture_date, expiration_date " +
+							"SELECT description, lifespan, manufacture_date, expiration_date, price " +
 									"FROM Stock JOIN Detail " +
 									"ON Stock.component_id=Detail.ID " +
 									"WHERE Stock.component_id=" + productInfo.get("ID") + ";");
 				}
+
+				if (jsonProductInfo == null)
+					return false;
 
 				productInfo.putAll(dataManager.jsonToHashMap(
 						jsonProductInfo.getJSONObject(0)));
@@ -177,6 +183,7 @@ public class OpenProductActivity extends AppCompatActivity
 			quantityField.setText(productInfo.get("quantity") + "pcs.");
 			descriptionField.setText(productInfo.get("description"));
 			lifespanField.setText(productInfo.get("lifespan") + " days");
+			priceField.setText(productInfo.get("price") + "$");
 
 			if (!productInfo.get("quantity").equals("0"))
 			{
