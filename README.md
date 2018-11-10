@@ -1,7 +1,5 @@
 # f1-factory-datahub
-Datahub for a Formula 1 factory (UNI Project) 
-
-Currently in development.  
+Datahub for a Formula 1 factory (UNI Project)  
 
 Android application for tracking factory/market orders, routes, processes, components and products in stock, workstations of Formula 1 Manufacture.  
 Data stored in MySQL database on a remote HTTP server which translates query sent by the app to the database and returns data in a JSON object.  
